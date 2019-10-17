@@ -1,7 +1,7 @@
 const util = require('util');
 const eventEmitter = require('events');
 
-const promise = require('bluebird');
+// const promise = require('bluebird');
 const AppDAO = require('./dao');
 const CarRepository = require('./car-repository');
 

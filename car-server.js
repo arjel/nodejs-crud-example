@@ -1,15 +1,13 @@
 // HTTP SERVER
 const express = require('express');
 const bodyParser = require('body-parser');
-const eventEmitter = require('events');
+// const eventEmitter = require('events');
 const path = require('path');
 
-const CarRepository = require('./car-repository');
+// const CarRepository = require('./car-repository');
 const CarService = require('./car-service');
 
 var carService = new CarService();
-		
-let startId = 1
 
 let app = express();
 
