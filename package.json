@@ -4,7 +4,6 @@
   "description": "blablabla",
   "main": "car-server.js",
   "scripts": {
-    "start": "node car-server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

@@ -1,4 +1,5 @@
 // HTTP SERVER
+const PORT = process.env.PORT || 9090;
 const express = require('express');
 const bodyParser = require('body-parser');
 // const eventEmitter = require('events');
@@ -98,6 +99,6 @@ app.route('/index').get(
 	}
 );
 
-app.listen(9090);
+app.listen(PORT);
 
-console.log("listineing on 9090...");
+console.log(`listineing on ${PORT}...`);
