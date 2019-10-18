@@ -1,20 +1,26 @@
 <html>
+
 	<head>
 		<title>CARS</title>
-		
+
 		<script>
 			var xhr = new XMLHttpRequest();
-			function getCars(){
-				xhr.open('GET', 'http://localhost:9090/cars');
-				xhr.onload = function() {
+
+			// var baseUrl = 'http://localhost:9090/cars';
+			var baseUrl = 'https://car-server-app.herokuapp.com';
+
+			function getCars() {
+				xhr.open('GET', `${baseUrl}/cars`);
+				xhr.onload = function () {
 					if (xhr.status === 200) {
 						var cars = JSON.parse(xhr.response);
 						var table = document.getElementById('cars')
 						var tBody = table.getElementsByTagName('tbody')[0];
-						while(tBody.hasChildNodes())
+						while (tBody.hasChildNodes()) {
 							tBody.removeChild(tBody.firstChild);
-   
-						cars.forEach(function(currentCar){
+						}
+
+						cars.forEach(function (currentCar) {
 							var newRow = tBody.insertRow(tBody.rows.length);
 							var newCell0 = newRow.insertCell(0);
 							var newCell1 = newRow.insertCell(1);
@@ -26,15 +32,12 @@
 							newCell1.append(newText1);
 							newCell2.append(newText2);
 						});
-						
-					} else {
-						
 					}
 				};
-				xhr.send();		
+				xhr.send();
 			};
-			
-			function addCar(){
+
+			function addCar() {
 				var body = 'brand=';
 				body += document.getElementById('brand').value;
 				body += '&model=';
@@ -43,44 +46,38 @@
 				body += document.getElementById('plate').value;
 				body += '&owner=';
 				body += document.getElementById('owner').value;
-				
+
 				console.log(body);
-				
-				xhr.open('POST', 'http://localhost:9090/cars');
+
+				xhr.open('POST', `${baseUrl}/cars`);
 				xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-				xhr.onload = function() {
+				xhr.onload = function () {
 					if (xhr.status === 200) {
 						alert("Auto inserita: " + xhr.response);
 						getCars();
-						
-					} else {
-						
-					}
-				};	
-				xhr.send(body);		
-			};
-			
-			function searchCar(){
-				xhr.open('GET', 'http://localhost:9090/cars/' + document.getElementById('searchPlate').value);
-				xhr.onload = function() {
-					if (xhr.status === 200) {
-						alert(xhr.response);
-						
-					} else {
-						
 					}
 				};
-				xhr.send();		
-			};			
-			
+				xhr.send(body);
+			};
+
+			function searchCar() {
+				xhr.open('GET', `${baseUrl}/cars/${document.getElementById('searchPlate').value}`);
+				xhr.onload = function () {
+					if (xhr.status === 200) {
+						alert(xhr.response);
+					}
+				};
+				xhr.send();
+			};
+
 			getCars();
-			
 		</script>
 	</head>
+
 	<body>
 		<h1>CARS</h1>
 		<p>
-			<h2>Inserisci<h2>
+			<h2>Inserisci</h2>
 			<p style="font-size: 16px;">
 				marca: <input type="text" id="brand" name="brand"><br>
 				modello: <input type="text" id="model" name="model"><br>
@@ -89,29 +86,32 @@
 				<input type="button" id="save" name="save" value="Salva" onclick="addCar()">
 			</p>
 		</p>
-		
+
 		<p>
-			<h2>Ricerca<h2>
+			<h2>Ricerca</h2>
 			<p style="font-size: 16px;">
 				targa: <input type="text" id="searchPlate" name="plate"><br>
 				<input type="button" id="search" name="search" value="Cerca" onclick="searchCar()">
 			</p>
 		</p>
-		
+
 		<p>
-			<h2>Lista<h2>
+			<h2>Lista</h2>
 			<p style="font-size: 16px;">
 				<table id="cars" border="1">
 					<thead>
 						<tr>
-							<th>marca</th><th>modello</th><th>targa</th>
+							<th>marca</th>
+							<th>modello</th>
+							<th>targa</th>
 						</tr>
-					<thead>
+					</thead>
 					<tbody>
-					
+
 					</tbody>
 				</table>
 			</p>
 		</p>
 	</body>
+
 </html>
