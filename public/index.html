@@ -91,17 +91,36 @@
 			html,
 			body {
 				font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+				font-size: 40px;
+				line-height: 40px;
+			}
+
+			table {
+				width: 100%;
 			}
 
 			td,
 			th {
-				min-width: 100px;
 				width: 33%;
-				max-width: 200px;
+				font-size: 40px;
 			}
 
-			p {
-				font-size: 16px;
+			input {
+				width: 100%;
+				line-height: 40px;
+				box-sizing: border-box;
+				box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				-webkit-box-sizing: border-box;
+				border-radius: 10px;
+			}
+
+			h1 {
+				font-size: 2em;
+			}
+
+			h2 {
+				font-size: 1.5em;
 			}
 		</style>
 		<link rel="stylesheet" href="/public/index.css">
@@ -113,52 +132,52 @@
 
 			<h2>Inserisci</h2>
 			<div class="row">
-				<div class="col-sm-2">
+				<div class="col-sm-6">
 					<p>marca:</p>
 				</div>
-				<div class="col-sm-10">
+				<div class="col-sm-6">
 					<input type="text" id="brand" name="brand">
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-sm-2">
+				<div class="col-sm-6">
 					<p>modello:</p>
 				</div>
-				<div class="col-sm-10">
+				<div class="col-sm-6">
 					<input type="text" id="model" name="model">
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-sm-2">
+				<div class="col-sm-6">
 					<p>targa:</p>
 				</div>
-				<div class="col-sm-10">
+				<div class="col-sm-6">
 					<input type="text" id="plate" name="plate">
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-sm-2">
+				<div class="col-sm-6">
 					<p>proprietario:</p>
 				</div>
-				<div class="col-sm-10">
+				<div class="col-sm-6">
 					<input type="text" id="owner" name="owner">
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-sm-2">
+				<div class="col-sm-6">
 				</div>
-				<div class="col-sm-10">
+				<div class="col-sm-6">
 					<input type="button" id="save" name="save" value="Salva" onclick="addCar()">
 				</div>
 			</div>
 
 			<h2>Ricerca</h2>
 			<div class="row">
-				<div class="col-sm-2">
+				<div class="col-sm-6">
 					<p>targa:</p>
 					<p></p>
 				</div>
-				<div class="col-sm-8">
+				<div class="col-sm-6">
 					<p><input type="text" id="searchPlate" name="plate"></p>
 					<p><input type="button" id="search" name="search" value="Cerca" onclick="searchCar()"></p>
 				</div>
