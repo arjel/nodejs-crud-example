@@ -1,104 +1,78 @@
 // HTTP SERVER
 const PORT = process.env.PORT || 9090;
-const express = require('express');
-const bodyParser = require('body-parser');
-// const eventEmitter = require('events');
-const path = require('path');
+const express = require("express");
+const bodyParser = require("body-parser");
+const path = require("path");
 
-// const CarRepository = require('./car-repository');
-const CarService = require('./car-service');
+const CarService = require("./car-service");
 
-var carService = new CarService();
-
+let carService = new CarService();
 let app = express();
-
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static(__dirname + "/public"));
 
-app.route('/cars')
-	.get(
-		function(request, response){
-			console.log("GET /cars");
-			
-			carService.getAll();
-			
-			carService.on('getAllEnd',function(rows){	
-				response.status(200);
-				response.setHeader('Content-Type', 'application/json');
-				response.send(JSON.stringify(rows));
-				response.end();				
-			});
-			
-			carService.on('error',function(err){	
-				response.status(500);
-				response.setHeader('Content-Type', 'application/json');
-				response.send(err);
-				response.end();				
-			});
-		}
-	)
-	.post(
-		function(request, response){
-			console.log("POST /cars");
-			
-			var car = request.body;
-			
-			carService.create(car);
-			
-			carService.on('createEnd',function(car){	
-				response.status(200);
-				response.setHeader('Content-Type', 'application/json');
-				response.send(JSON.stringify(car));
-				response.end();				
-			});
-			
-			carService.on('error',function(err){	
-				response.status(500);
-				response.setHeader('Content-Type', 'application/json');
-				response.send(err);
-				response.end();				
-			});			
-		}
-	);
+app.route("/cars")
+    .get(function(request, response) {
+		console.log("GET /cars");
+		console.log(request);
 
-app.route('/cars/:plate').get(
-	function(request, response){
+        carService.getAll();
+
+        carService.once("getAllEnd", rows => twohundred(rows, response));
+        carService.once("getAllError", err => fivehundred(err, response));
+    })
+    .post(function(request, response) {
+		console.log("POST /cars");
+		console.log(request);
+
+        let car = request.body;
+        carService.create(car);
+
+        carService.once("createEnd", row => twohundred(row, response));
+        carService.once("createError", err => fivehundred(err, response));
+    });
+
+app.route("/cars/:plate")
+	.get(function(request, response) {
 		console.log("GET /cars/plate");
-		var plate = request.params.plate;
-					
+		console.log(request);
+
+		let plate = request.params.plate;
+
 		carService.getByPlate(plate);
-		
-		carService.on('getByPlateEnd',function(row){	
-			response.status(200);
-			response.setHeader('Content-Type', 'application/json');
-			response.send(JSON.stringify(row));
-			response.end();				
-		});
-		
-		carService.on('getByPlateNotFound',function(str){	
-			response.status(404);
-			response.setHeader('Content-Type', 'application/json');
-			response.send(str);
-			response.end();				
-		});		
-					
-		carService.on('error',function(err){	
-			response.status(500);
-			response.setHeader('Content-Type', 'application/json');
-			response.send(err);
-			response.end();				
-		});
-	}
-);
+
+		carService.once("getByPlateEnd", row => twohundred(row, response));
+		carService.once("getByPlateNotFound", message => fourhundredfour(message, response));
+		carService.once("getByPlateError", err => fivehundred(err, response));
+	});
 
 // PAGE
-app.route('/index').get(
-	function(request, response){
-		console.log("GET /my-page");
-		response.sendFile(path.join(__dirname + "/index.html"));
-	}
-);
+app.route("/").get(function(request, response) {
+    console.log("GET /index");
+	console.log(request);
 
+    response.sendFile(path.join(__dirname + "/public/index.html"));
+});
 app.listen(PORT);
+
+// Code handlers
+let twohundred = (jsonData, response) => {
+	response.setHeader("Content-Type", "application/json");
+	response.status(200);
+	response.send(JSON.stringify(jsonData));
+}
+
+let fourhundredfour = (stringData, response) => {
+	response.setHeader("Content-Type", "application/json");
+	response.status(404);
+	response.send(stringData);
+}
+
+let fivehundred = (stringData, response) => {
+	response.setHeader("Content-Type", "application/json");
+	response.status(500);
+	response.send(stringData);
+}
 
 console.log(`listineing on ${PORT}...`);
